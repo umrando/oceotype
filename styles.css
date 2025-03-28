@@ -1,0 +1,112 @@
+#customTestScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 50px auto;
+    font-family: 'Arial', sans-serif;
+    border: 3px solid #007bff !important;
+}
+
+#customTestScreen h1 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#customTestScreen label {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#customTestScreen input[type="number"],
+#customTestScreen textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #007bff !important;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+#customTestScreen input[type="number"]:focus,
+#customTestScreen textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#customTestScreen textarea {
+    resize: none;
+}
+
+#customTestScreen button {
+    background-color: #007bff;
+    color: white;
+    border: 3px solid #007bff !important;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#customTestScreen button:hover {
+    background-color: #0056b3;
+}
+
+#customTestScreen button[aria-label="Back to Home"] {
+    color: rgb(0, 153, 255);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 20px;
+}
+
+#customTestScreen button[aria-label="Back to Home"]:hover {
+    background-color: lightgray;
+}
+
+#customTestScreen #customTextContainer {
+    width: 100%;
+    margin-top: 20px;
+    display: none;
+}
+
+#customTestScreen input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+    border: 3px solid #007bff !important;
+    border-radius: 5px !important;
+}
+
+html body #customTestScreen {
+    border: 3px solid #007bff !important;
+}
+html body #customTestScreen input[type="number"],
+html body #customTestScreen textarea {
+    border: 3px solid #007bff !important;
+}
+html body #customTestScreen button {
+    border: 3px solid #007bff !important;
+}
+html body #customTestScreen input[type="checkbox"] {
+    border: 3px solid #007bff !important;
+    border-radius: 5px !important;
+}

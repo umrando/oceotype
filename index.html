@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Oceotype | The All-In-One Typing Test!</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="index.css">
+        <script src="index.js" defer></script>
+        <style>
+            .tip-text {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.9rem;
+                color: rgba(0, 0, 0, 0.6);
+                text-align: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            .points-display {
+                position: absolute;
+                bottom: 50px;
+                top: auto;
+                left: 10px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+                color: blue;
+                background-color: rgba(255, 255, 255, 0.9);
+                border: 2px solid blue;
+                border-radius: 8px;
+                padding: 5px 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                user-select: none;
+                z-index: 1000;
+                cursor: default;
+            }
+            .leaderboard-button {
+                position: absolute;
+                top: 10px;
+                left: 120px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+                color: blue;
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 2px solid blue;
+                border-radius: 8px;
+                padding: 5px 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                user-select: none;
+                z-index: 1000;
+                cursor: pointer;
+            }
+            .leaderboard-button:hover {
+                background-color: lightblue;
+            }
+            .custom-back-button {
+                color: black;
+                background-color: rgba(255, 255, 255, 0.9);
+                border: 2px solid black;
+                border-radius: 8px;
+                padding: 5px 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+                user-select: none;
+            }
+            .custom-back-button:hover {
+                background-color: lightgray;
+            }
+            #phrase {
+                font-size: 1.5rem;
+                color: #2c3e50;
+                white-space: pre-wrap;
+                line-height: 1.6;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                -moz-user-select: none;
+                text-align: center;
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                position: relative;
+                top: 10%;
+                transform: translateY(0%);
+            }
+            .button-container div {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .bonus-checkbox {
+                margin-left: 10px;
+                cursor: pointer;
+            }
+            .bonus-checkbox + label {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.9rem;
+                color: rgba(0, 0, 0, 0.7);
+                margin-left: 5px;
+                cursor: pointer;
+            }
+            .tabs {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                height: 5%;
+                border: none;
+            }
+            .tab-button {
+                font-family: 'Poppins', sans-serif;
+                font-size: 1rem;
+                color: blue;
+                background-color: transparent;
+                border: none;
+                flex: 1;
+                height: 100%;
+                cursor: pointer;
+            }
+            .tab-button.active {
+                background-color: rgb(0, 195, 255);
+            }
+            .oceotype-logo {
+                display: block;
+                margin: 0 ;
+                position: relative;
+                top: -121px;
+                z-index: 1000;
+                width: 200px;
+                height: auto;
+                border: 5px lightskyblue;
+            }
+        </style>
+    <body>
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('testsTab')">Tests</button>
+            <button class="tab-button" onclick="showTab('keybindsTab')">Keybinds</button>
+            <button class="tab-button" onclick="showTab('settingsTab')">Settings</button>
+            <button class="tab-button" onclick="showTab('leaderboardTab')">Top 100</button>
+        </div>
+        <div id="authButtons">
+            <button onclick="showSignUp()">Sign Up</button>
+            <button onclick="showLogIn()">Log In</button>
+        </div>
+        <div id="app" class="container fade-in">
+            <div id="homeScreen" style="display: none;">
+                <img src="C:\Users\Conne\Downloads\oceotype (1).png" alt="Oceotype Logo" class="oceotype-logo">
+                <span class="points-display">
+                    Points: 0
+                </span>
+                <span class="points-display" id="displayNameLabel" style="bottom: 10px; top: auto; left: 10px;">
+                    <!-- Display name will be populated here -->
+                </span>
+                <div id="testsTab" class="tab-content">
+                    <div class="scrollable-container" id="testScrollContainer">
+                        <!-- Ensure this container is populated dynamically -->
+                        <div class="button-container">
+                            <div>
+                                <button aria-label="Start 15-second test" onclick="startPresetTest(15, '15')">15-Second Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="15" id="bonus-15">
+                                <label for="bonus-15">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start 30-second test" onclick="startPresetTest(30, '30')">30-Second Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="30" id="bonus-30">
+                                <label for="bonus-30">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start 1-minute test" onclick="startPresetTest(60, '60')">1-Minute Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="60" id="bonus-60">
+                                <label for="bonus-60">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start 2-minute test" onclick="startPresetTest(120, '120')">2-Minute Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="120" id="bonus-120">
+                                <label for="bonus-120">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start 5-minute test" onclick="startPresetTest(300, '300')">5-Minute Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="300" id="bonus-300">
+                                <label for="bonus-300">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start 10-minute test" onclick="startPresetTest(600, '600')">10-Minute Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="600" id="bonus-600">
+                                <label for="bonus-600">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start 30-minute test" onclick="startPresetTest(1800, '1800')">30-Minute Test</button>
+                                <input type="checkbox" class="bonus-checkbox" data-duration="1800" id="bonus-1800">
+                                <label for="bonus-1800">Bonus</label>
+                            </div>
+                            <div>
+                                <button aria-label="Start custom test" onclick="customTest()">Custom Test</button>
+                            </div>
+                        </div>
+                        <p class="tip-text">
+                            Tip: Press Enter to generate a new test of the same length, if you do not like this typing set.
+                        </p>
+                    </div>
+                </div>
+                <div id="keybindsTab" class="tab-content" style="display: none;">
+                    <h1>Keybinds</h1>
+                    <ul>
+                        <li>Enter: Restart the test (if in a test)</li>
+                        <li>Esc: Exit the current test</li>
+                        <li>Tab: Switch between tabs</li>
+                    </ul>
+                </div>
+                <div id="settingsTab" class="tab-content" style="display: none;">
+                    <h1>Settings</h1>
+                    <p>Settings will be added here later.</p>
+                </div>
+                <div id="leaderboardTab" class="tab-content" style="display: none;">
+                    <h1>Leaderboard</h1>
+                    <ul id="leaderboard">
+                        <!-- Leaderboard entries will be dynamically populated -->
+                    </ul>
+                </div>
+            </div>
+            <div id="leaderboardScreen" style="display: none;">
+                <h1>Leaderboard</h1>
+                <ul id="leaderboard">
+                </ul>
+                <button onclick="showHome()">Back to Home</button>
+            </div>
+            <div id="customTestScreen" style="display: none;">
+                <h1>Custom Test Screen</h1>
+                <label for="testInput">Enter a number:</label>
+                <input type="number" id="testInput" />
+                <textarea placeholder="Enter your text here" style="resize: none;"></textarea>
+                <button>Submit</button>
+                <button class="custom-back-button" aria-label="Back to Home" onclick="showHome()">Back to Home</button>
+            </div>
+            <div id="signUpScreen" style="display: none;">
+                <h1>Sign Up</h1>
+                <form onsubmit="handleSignUp(event)">
+                    <label for="signUpDisplayName">Display Name:</label>
+                    <input type="text" id="signUpDisplayName" required />
+                    <label for="signUpPassword">Password:</label>
+                    <input type="password" id="signUpPassword" required />
+                    <button type="submit">Sign Up</button>
+                </form>
+                <button onclick="signUpWithGoogle()">Sign Up With Google</button>
+                <button onclick="showHome()">Back to Home</button>
+            </div>
+            <div id="logInScreen" style="display: none;">
+                <h1>Log In</h1>
+                <form onsubmit="handleLogIn(event)">
+                    <label for="logInDisplayName">Display Name:</label>
+                    <input type="text" id="logInDisplayName" required />
+                    <label for="logInPassword">Password:</label>
+                    <input type="password" id="logInPassword" required />
+                    <button type="submit">Log In</button>
+                </form>
+                <button onclick="logInWithGoogle()">Log In With Google</button>
+                <button onclick="showHome()">Back to Home</button>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const displayName = localStorage.getItem('displayName');
+                if (!displayName) {
+                    let name = '';
+                    while (!name) {
+                        name = prompt('What would you like us to call you by? Enter your display name here:');
+                        if (name) {
+                            localStorage.setItem('displayName', name);
+                        }
+                    }
+                    showSignUp();
+                }
+                const displayNameLabel = document.getElementById('displayNameLabel');
+                if (displayNameLabel) {
+                    const displayName = getDisplayName();
+                    displayNameLabel.textContent = `Name: ${displayName}`;
+                }
+            });
+            function getDisplayName() {
+                return localStorage.getItem('displayName');
+            }
+            function showHome() {
+                document.getElementById('homeScreen').style.display = 'block';
+                document.getElementById('leaderboardScreen').style.display = 'none';
+                document.getElementById('signUpScreen').style.display = 'none';
+                document.getElementById('logInScreen').style.display = 'none';
+            }
+            function showLeaderboard() {
+                document.getElementById('homeScreen').style.display = 'none';
+                document.getElementById('leaderboardScreen').style.display = 'block';
+                loadLeaderboard();
+            }
+            function loadLeaderboard() {
+                const leaderboard = [];
+                const leaderboardElement = document.getElementById('leaderboard');
+                leaderboardElement.innerHTML = '';
+                leaderboard.forEach(entry => {
+                    const li = document.createElement('li');
+                    li.textContent = `${entry.name}: ${entry.points} points`;
+                    leaderboardElement.appendChild(li);
+                });
+            }
+            function showTab(tabId) {
+                const tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(tab => {
+                    tab.style.display = 'none';
+                });
+                const selectedTab = document.getElementById(tabId);
+                if (selectedTab) {
+                    selectedTab.style.display = 'block';
+                    // Fix for blank scroll container
+                    if (tabId === 'testsTab') {
+                        const scrollContainer = document.getElementById('testScrollContainer');
+                        if (scrollContainer) {
+                            scrollContainer.scrollTop = 0; // Reset scroll position
+                        }
+                    }
+                }
+                const tabButtons = document.querySelectorAll('.tab-button');
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+                const activeButton = document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`);
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+            }
+            function formatNumberWithCommas(number) {
+                return number.toLocaleString();
+            }
+            function updatePointsDisplay(points) {
+                const pointsDisplay = document.querySelector('.points-display');
+                if (pointsDisplay) {
+                    pointsDisplay.textContent = `Points: ${formatNumberWithCommas(points)}`;
+                }
+            }
+            document.addEventListener('DOMContentLoaded', () => {
+                updatePointsDisplay(0);
+            });
+        </script>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script>
+            function logInWithGoogle() {
+              google.accounts.id.prompt(); // Show Google login popup
+            }
+          
+            function handleCredentialResponse(response) {
+              console.log("Google Login Token: " + response.credential);
+              
+              // If you have a backend, send the token to verify the user
+              fetch('/auth/google', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: response.credential })
+              }).then(response => response.json())
+                .then(data => console.log("User info:", data))
+                .catch(error => console.error("Error:", error));
+            }
+          
+            window.onload = function () {
+              google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID", // Replace with your actual Client ID
+                callback: handleCredentialResponse
+              });
+            };
+          </script>          
+    </body>
+</html>
